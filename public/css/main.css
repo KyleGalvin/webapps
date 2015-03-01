@@ -1,0 +1,200 @@
+/*@font-face {
+  font-family: 'fontello';
+  src: url('./css/fontello.eot?42682168');
+  src: url('./css/fontello.eot?42682168#iefix') format('embedded-opentype'),
+       url('./css/fontello.woff?42682168') format('woff'),
+       url('./css/fontello.ttf?42682168') format('truetype'),
+       url('./css/fontello.svg?42682168#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}*/
+
+body{
+	margin:0px;
+	padding:0px;
+	border:0px;
+}
+
+.menuPanel{
+	position:relative;
+	width:100%;
+	height:100%;
+	right:80%;
+}
+.menuInnerPanel{
+	position:absolute;
+	width:80%;
+	height:100%;
+	background: #ccf;	
+}
+.slideInPanel{
+	position:absolute;
+	width:100%;
+	height:100%;
+	right:100%;
+	background: #ccc;
+}
+.menuTogglePanel{
+	position:absolute;
+	height:75px;
+	width:50px;
+	right:calc( 20% - 50px );
+}
+.menuToggleIcon{
+	position:relative;
+	top:calc( 50% - 20px );
+	font-size:40px;
+}
+.mainPanel{
+	position:absolute;
+	top:0px;
+	width:100%;
+	height:100%;
+}
+.mainPanelSlider{
+	position:absolute;
+	top:0px;
+	width:100%;
+	height:100%;
+	right:100%;
+}
+.trackScrollContainer{
+	position:absolute;
+	width:100%;
+	top:0px;
+	bottom:75px;
+}
+.absolute{
+	position:absolute;
+}
+.relative{
+	position:relative;
+}
+.trackScrollItem{
+	position:relative;
+	width:100%;
+	height:60px;
+	line-height:20px;
+	border-bottom:2px solid #aaa;
+	background-color:#eec;
+	color:#210;
+}
+.trackDetailText{
+	position:relative;
+	display:block;
+	float:left;
+	width:100%;
+}
+.mapEdit{
+	width:100%;
+	height:100%;
+}
+.menuContainer{
+	position:relative;
+	height:100%;
+	width:34%;
+	left:33%;
+
+}
+.mainMenuButton{
+	width:100%;
+	height:50px;
+	background-color:#cca;
+	margin:10px;
+	text-align: center;
+	line-height: 50px;
+}
+.menu{
+	margin:0px;
+	padding:0px;
+	border:0px;
+	height:100%;
+	width:100%;		
+}
+.playlist{
+	position:absolute;
+	width:100%;
+	height:75px;
+	bottom:0px;
+	background:#000;
+}
+.main{
+	overflow-x:hidden;
+	position:relative;
+	margin:0px;
+	padding:0px;
+	border:0px;
+	height:100%;
+	width:100%;	
+}
+.mainContainer{
+	position:relative;
+	margin:0px;
+	padding:0px;
+	border:0px;
+	top:0px;
+	height:100%;
+	width:100%;
+}
+.uploadQueue{
+	position:relative;
+	top:0;
+	bottom:75px;
+}
+.header{
+	height:75px;
+	left:0px;
+	right:0px;
+	top:0px;
+	background-color:#f60;
+	color:#eec;
+	text-align:center;
+	line-height:75px;
+	border-bottom:2px solid #210;
+}
+.twoColumnLeft{
+	width:50%;
+	height:100%;
+	float:left;
+}
+.twoColumnRight{
+	width:50%;
+	height:100%;
+	float:right;
+}
+.invisible{
+	position:absolute;
+	visibility:hidden;
+}
+.fileUpload{
+	box-sizing:border-box;
+	position:relative;
+	margin:0px;
+	border:0px;
+	bottom:0px;
+	width:100%;
+	height:100%;
+	border: 2px dashed #aaa;
+	background-color:#ddd;
+	text-align:center;
+	line-height:75px;
+}
+.fileUpload:hover{
+	border:2px dashed #fff;
+	background-color:#aaa;
+}
+.footer{
+	position:absolute;
+	margin:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	height:75px;
+	width:100%;
+}
+.trackPlayer{
+	position:relative;
+	float: right;
+	top: 50%;
+	transform: translateY(-50%);
+}
