@@ -8,7 +8,7 @@ var knex = require('knex')({
   connection: {
     host     : '127.0.0.1',
     user     : 'root',
-    password : 'reggieroo',
+    password : '1234',
     database : 'test',
     charset  : 'utf8'
   }

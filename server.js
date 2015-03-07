@@ -9,7 +9,7 @@ var app = express()
 var bluebird = require('bluebird')
 //configure web app, detailing express.js features and defining local file locations
 app.use(express.static(__dirname + '/public'))
-app.set( 'views', __dirname + '\\views' )
+app.set( 'views', __dirname + '/views' )
 app.set( 'view engine', 'ejs' )
 //app.set('bookshelf', bookshelf)
  
