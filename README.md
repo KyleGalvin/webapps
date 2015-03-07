@@ -8,6 +8,7 @@ Instructions:
 3) run:
 ```
 $ cd ./webapps
+$ npm install express bluebird socket.io body-parser knex mysql bookshelf id3js 
 $ node server.js
 ```
 4) connect via browser to assigned port 
