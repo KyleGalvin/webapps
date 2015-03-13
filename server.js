@@ -44,6 +44,11 @@ var server = require('http').createServer(app)
 //begin our configured webserver
 server.listen(8080, function(){console.log('server listening')})
 
+
+var websocketSingleton = require("websocket")
+var websocket = new websocketSingleton()
+websocket.init(server)
+/*
 //socket.io for realtime websocket connections
 var io = require('socket.io').listen(server,{log:false})
 
@@ -85,3 +90,5 @@ io.sockets.on('connection',function(socket){
 
 	//dispatcher.call("add_session",socket.id, [socket])
 })
+
+*/

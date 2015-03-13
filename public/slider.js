@@ -10,7 +10,7 @@ define(function(require){
 		var mainPanel = $('<div class="mainPanel">')
 		this.view.append(mainPanel)
 
-		var mainWidget = require('trackQueue')
+		var mainWidget = require('dbAdmin')
 		var main = new mainWidget()
 
 		mainPanel.append(main.view)

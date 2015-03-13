@@ -16,7 +16,7 @@ define(function(require){
 			request.header = {id:id}
 			request.args = []
 			socket.write(request)			
-		}).text("Dump & Rebuild Uploaded Tracks")
+		}).text("Dump & Rebuild Songs")
 
 		var playlists = $('<div class="mainMenuButton">').click(function(){
 			var request = {}
