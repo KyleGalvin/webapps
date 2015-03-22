@@ -4,7 +4,8 @@
 var promise = require('bluebird')
 
 var knex = require('knex')({
-  client: 'mysql',
+  client: 'pg',
+  //client: 'mysql',
   connection: {
     host     : 'localhost',
     user     : 'root',

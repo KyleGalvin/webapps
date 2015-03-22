@@ -45,9 +45,8 @@ var server = require('http').createServer(app)
 server.listen(8080, function(){console.log('server listening')})
 
 
-var websocketSingleton = require("websocket")
-var websocket = new websocketSingleton()
-websocket.init(server)
+var websocket = require("./socket")
+websocket.init(server,{})
 /*
 //socket.io for realtime websocket connections
 var io = require('socket.io').listen(server,{log:false})
