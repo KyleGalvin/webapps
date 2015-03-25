@@ -15,7 +15,6 @@ module.exports={
 				//sessions[socket.id].created = new Date()
 				//sessions[socket.id].socket = socket
 
-
 				socket.on('message',function(data){
 					//var reactor = require("./reactor")
 					console.log("incoming Data:",data)
@@ -40,7 +39,7 @@ module.exports={
 				socket.on('disconnect', function(){
 					console.log("disconnecting:",socket.id)	
 				})
-
+				socket.send(JSON.stringify({message:{address:socket.id},header:{widgetID:1}}))
 				//dispatcher.call("add_session",socket.id, [socket])
 			})
 			

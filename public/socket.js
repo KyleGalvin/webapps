@@ -8,9 +8,21 @@ define(function(require){
     }
     MySingleton.prototype = {
         initialize: function(){
+			var address = null
 			var socket = null
 			var widgetRegistry = require("widgetRegistry")
-
+			widgetRegistry.register(this,"socket")//register this module as addressable so the server can send us network related info
+			this.handleMessage = function(message){
+				if(message.address){
+					this.address = message.address
+				}
+				console.log("socket handling message ",message)
+				var message = {}
+				message.header = {id:this.address}
+				message.command = "subscribe"
+				message.args = [this.address,"path","to","subscription"]
+				this.write(message)
+			}
 			this.init = function(ip,port,reactor){
 				// var BinaryClient = require("binary")
 				// BSocket = new BinaryClient('ws://'+ip+':'+port)
@@ -18,9 +30,11 @@ define(function(require){
 				socket.on('message', function(data,callback){
 					data = $.parseJSON(data)
 					console.log("handling message:",data)
-					var destinationWidget = widgetRegistry.lookupID(data.header.id)
+					var destinationWidget = widgetRegistry.lookupID(data.header.widgetID)
 					console.log("message handled by: ",destinationWidget)
-					destinationWidget.handleMessage(data.message)
+					if(destinationWidget){
+						destinationWidget.handleMessage(data.message)
+					}
 					//messageDestination.handleMessage(data)
 				})
 				socket.on('error',function(){
@@ -40,7 +54,7 @@ define(function(require){
 				//should be routed to the server, a local widget, or a peer machine
 				console.log("in socket write...",json)
 				if(json.header){
-					if(json.header.session && json.header.session == 'local'){
+					if(json.header.id && json.header.id == 'local'){
 						if(json.header.widgetName){
 							var destination = widgetRegistry.lookupName(json.header.widgetName)
 							destination[0].handleMessage(json)
@@ -50,6 +64,7 @@ define(function(require){
 						}
 						
 					}else{
+						json.header.id = address
 						if(json.command){
 							console.log('writing message:',json)
 							socket.emit('message',json)

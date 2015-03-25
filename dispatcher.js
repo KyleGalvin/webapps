@@ -1,11 +1,10 @@
 var model = {}
 var db= require("./dbConnector")
 var fs = require("fs")
-
+var pubSub = require("./publishSubscribe")
 
 //maybe we should start managing dispatcher modules and dependencies instead of having everything located in this one file?
 var id3 = require('id3js')
-
 //var bookshelf = new db() //.getBookshelf()
 //var modelHandler = require('./modelHandler')
 //var path = require('path')
@@ -45,6 +44,12 @@ _cmds = {
 	},
 	clearDBPlaylist: function(args){
 		db.clearDBPlaylist()
+	},
+	subscribe:function(args){
+		console.log('in dispatcher subscribe with args ',args)
+		console.log('pubsub',pubSub)
+		var argsTop = args.shift()
+		pubSub.subscribe(argsTop,args)
 	},
 	addTrack: function(args){
 
