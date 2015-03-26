@@ -2,7 +2,7 @@ var model = {}
 var db= require("./dbConnector")
 var fs = require("fs")
 var pubSub = require("./publishSubscribe")
-
+var server
 //maybe we should start managing dispatcher modules and dependencies instead of having everything located in this one file?
 var id3 = require('id3js')
 //var bookshelf = new db() //.getBookshelf()
@@ -12,16 +12,24 @@ var id3 = require('id3js')
 //var fs = require('fs')
 
 module.exports = {
-	call: function(cmd,sessionID,args,header){
-		console.log("calling command:",cmd)
-		if(_cmds[cmd]){
-			var result = _cmds[cmd](args)
+	init:function(srv){
+		//the publish widget is priveledged
+		//as it requires the ability to send data 
+		//to arbitrary clients
+		console.log('starting connections',srv)
+		server = srv
+		
+	},
+	call: function(args){
+		console.log("calling command:",args.command)
+		if(_cmds[args.command]){
+			var result = _cmds[args.command](args)
 			if(result){
 				console.log("returning result to sender",result)
 				return result
 			}
 		}else{
-			console.log("command not found!",cmd)
+			console.log("command not found!",args.command)
 			return {"test":"command not found returned"}
 		}
 	}
@@ -33,6 +41,9 @@ function stringToModelID(string){
 }
 
 _cmds = {
+	ping: function(args){
+		return {ping:args}
+	},
 	get: function(args){
 		console.log("get args:",args)
 		var allTracks = db.getTracks() //.then() for synching?
@@ -45,11 +56,13 @@ _cmds = {
 	clearDBPlaylist: function(args){
 		db.clearDBPlaylist()
 	},
-	subscribe:function(args){
-		console.log('in dispatcher subscribe with args ',args)
-		console.log('pubsub',pubSub)
-		var argsTop = args.shift()
-		pubSub.subscribe(argsTop,args)
+	subscribe:function(context){
+		//how get callback?
+		console.log('in dispatcher subscribe with args ',context.args)
+		console.log('pubsub',context)
+		console.log('server',server)
+		var callback = server.getConnection(context.header.id).send
+		pubSub.subscribe(context.header,context.args,callback)
 	},
 	addTrack: function(args){
 

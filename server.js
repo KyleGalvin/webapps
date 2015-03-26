@@ -14,9 +14,12 @@ function main(){
 	//begin our configured webserver
 	webserver.listen(8080, function(){console.log('server listening')})
 
+	var dispatcher = require("./dispatcher")
 
 	var websocket = require("./socketManager")
-	websocket.init(webserver,{})
+	websocket.init(webserver,dispatcher)
+
+	dispatcher.init(websocket)
 
 }
 main()

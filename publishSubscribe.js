@@ -3,10 +3,11 @@ var publishHelper = function(message,subTree,channel){
 	var channel = subTree.channels[channel[0]]
 	if(channel.subscribers){
 		for(var subscriber in channel.subscribers){
-			//subscriber.write(message)
+			subscriber(message)
 		}
 	}
 	if(channel.length > 1 ){
+		console.log('publishing message ',message)
 		publishHelper(message,channel,channel.shift())
 	}
 }
@@ -15,7 +16,7 @@ module.exports = {
 	publish : function(message,channel){
 		publishHelper(message,subscriptions,channel)
 	},
-	subscribe : function(agent,channel){
+	subscribe : function(agent,channel,callback){
 		console.log('subscribe called with args ',agent,"and",channel)
 		//traverse to the bottom of our subscription tree
 		//if traversed node is not found, create it lazily along the way
@@ -34,7 +35,8 @@ module.exports = {
 		if(!subTree.subscribers){
 			subTree.subscribers = {}
 		}
-		subTree.subscribers[agent]=true
+		console.log("key:",agent.id +"_"+agent.widgetID)
+		subTree.subscribers[agent.id+"_"+agent.widgetID]=callback
 		console.log("subscriptions:",subscriptions)
 	},
 	/*returns true on successful deletion of record, returns -1 if record not found */

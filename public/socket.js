@@ -18,9 +18,9 @@ define(function(require){
 				}
 				console.log("socket handling message ",message)
 				var message = {}
-				message.header = {id:this.address}
+				message.header = {id:message.address,widgetID:0}
 				message.command = "subscribe"
-				message.args = [this.address,"path","to","subscription"]
+				message.args = ["path","to","subscription"]
 				this.write(message)
 			}
 			this.init = function(ip,port,reactor){
@@ -64,7 +64,7 @@ define(function(require){
 						}
 						
 					}else{
-						json.header.id = address
+						json.header.id = this.address
 						if(json.command){
 							console.log('writing message:',json)
 							socket.emit('message',json)
