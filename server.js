@@ -1,25 +1,11 @@
-
 /*
 	boostrap our server
 */
 function main(){
-	var bluebird = require('bluebird')
-
-	var webrouting = require('./expressManager').getConfig()
-
-	//configure web server with settings defined above
-	var webserver = require('http').createServer(webrouting)
-	// var BinaryServer = require('binaryjs').BinaryServer
-	// var BServer = BinaryServer({port: 9000})
-	//begin our configured webserver
-	webserver.listen(8080, function(){console.log('server listening')})
-
+	//Resolve circular dependencies with dedpendency injection (Inversion of Control) as we start the major components of our server
 	var dispatcher = require("./dispatcher")
-
 	var websocket = require("./socketManager")
-	websocket.init(webserver,dispatcher)
-
+	websocket.init(dispatcher)
 	dispatcher.init(websocket)
-
 }
 main()

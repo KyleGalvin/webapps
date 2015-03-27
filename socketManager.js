@@ -5,7 +5,15 @@ module.exports={
 			//console.log('grabbing connections from table',address,connections[address])
 			return connections[address]
 		},
-		init : function(httpServer,dispatcher){
+		init : function(dispatcher){
+			var webrouting = require('./expressManager').getConfig()
+
+			//configure web server with settings defined above
+			var webserver = require('http').createServer(webrouting)
+			// var BinaryServer = require('binaryjs').BinaryServer
+			// var BServer = BinaryServer({port: 9000})
+			//begin our configured webserver
+			webserver.listen(8080, function(){console.log('server listening')})
 
 			//socket.io for realtime websocket connections
 			var io = require('socket.io').listen(httpServer,{log:false})
