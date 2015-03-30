@@ -11,25 +11,14 @@ define(function(require){
 			var address = null
 			var socket = null
 			var widgetRegistry = require("widgetRegistry")
-			widgetRegistry.register(this,"socket")//register this module as addressable so the server can send us network related info
-			this.handleMessage = function(message){
-				if(message.address){
-					this.address = message.address
-				}
-				console.log("socket handling message ",message)
-				var message = {}
-				message.header = {id:message.address,widgetID:0}
-				message.command = "subscribe"
-				message.args = ["path","to","subscription"]
-				this.write(message)
-			}
+			var id = widgetRegistry.register(this,"socket")//register this module as addressable so the server can send us network related info
 			this.init = function(ip,port,reactor){
+				console.log('socket init')
 				// var BinaryClient = require("binary")
 				// BSocket = new BinaryClient('ws://'+ip+':'+port)
 				socket = io.connect('http://'+ip+":"+port)
 				socket.on('message', function(data,callback){
 					data = $.parseJSON(data)
-					console.log("handling message:",data)
 					var destinationWidget = widgetRegistry.lookupID(data.header.widgetID)
 					console.log("message handled by: ",destinationWidget)
 					if(destinationWidget){
@@ -41,7 +30,8 @@ define(function(require){
 					console.log("client socket error!")
 				})
 				socket.on('connect',function(data){
-					console.log('client is connected',data)
+					console.log('client is connected',socket)
+					this.address = socket.id
 					reactor.trigger('socket_open')
 				})
 				socket.on('disconnect',function(){
@@ -64,7 +54,7 @@ define(function(require){
 						}
 						
 					}else{
-						json.header.id = this.address
+						json.header.id = socket.id
 						if(json.command){
 							console.log('writing message:',json)
 							socket.emit('message',json)

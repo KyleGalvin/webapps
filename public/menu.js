@@ -13,7 +13,7 @@ define(function(require){
 		var trackQueue = $('<div class="mainMenuButton">').click(function(){
 			var request = {}
 			request.command = "navigate"
-			request.header = {id:id,session:'local',widgetName:"slider"}
+			request.header = {id:'local',widgetName:"slider"}
 			request.args = ["trackQueue"]
 			socket.write(request)			
 		}).text("Uploaded Track Queue")
@@ -21,7 +21,7 @@ define(function(require){
 		var mapEdit = $('<div class="mainMenuButton">').click(function(){
 			var request = {}
 			request.command = "navigate"
-			request.header = {id:id,session:'local',widgetName:"slider"}
+			request.header = {id:'local',widgetName:"slider"}
 			request.args = ["mapEdit"]
 			socket.write(request)			
 		}).text("Edit Map")
@@ -29,7 +29,7 @@ define(function(require){
 		var playlistQueue = $('<div class="mainMenuButton">').click(function(){
 			var request = {}
 			request.command = "navigate"
-			request.header = {id:id,session:'local',widgetName:"slider"}
+			request.header = {id:'local',widgetName:"slider"}
 			request.args = ["playlistQueue"]
 			socket.write(request)			
 		}).text("Playlist Queue")
@@ -37,7 +37,7 @@ define(function(require){
 		var dbAdmin = $('<div class="mainMenuButton">').click(function(){
 			var request = {}
 			request.command = "navigate"
-			request.header = {id:id,session:'local',widgetName:"slider"}
+			request.header = {id:'local',widgetName:"slider"}
 			request.args = ["dbAdmin"]
 			socket.write(request)			
 		}).text("Database Admin Panel")

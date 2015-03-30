@@ -1,8 +1,12 @@
 define(function(require){
 	return function(){
+
 		var id = require("widgetRegistry").register(this,"main")
 		var socket = require("socket")
 		this.view = $('<div class="main">')
+		
+		var logger = require('log')
+		new logger()
 
 		var mainPanel = $('<div class="mainPanel">')
 		var menuTogglePanel = $('<div class="menuTogglePanel">').append($('<i class="menuToggleIcon icon-th">'))

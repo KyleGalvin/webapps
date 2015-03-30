@@ -16,7 +16,7 @@ module.exports={
 			webserver.listen(8080, function(){console.log('server listening')})
 
 			//socket.io for realtime websocket connections
-			var io = require('socket.io').listen(httpServer,{log:false})
+			var io = require('socket.io').listen(webserver,{log:false})
 			var bluebird = require('bluebird')
 			io.sockets.on('connection',function(socket){
 				console.log("socket id ", socket.id)
@@ -41,7 +41,6 @@ module.exports={
 				socket.on('disconnect', function(){
 					console.log("disconnecting:",socket.id)	
 				})
-				socket.send(JSON.stringify({message:{address:socket.id},header:{widgetID:1}}))
 				//dispatcher.call("add_session",socket.id, [socket])
 			})
 			

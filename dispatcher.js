@@ -57,17 +57,18 @@ _cmds = {
 		db.clearDBPlaylist()
 	},
 	subscribe:function(context){
-		//how get callback?
-		console.log('in dispatcher subscribe with args ',context.args)
-		console.log('pubsub',context)
-		console.log('server',server)
-		var callback = server.getConnection(context.header.id).send
+		var callback = server.getConnection(context.header.id)
 		pubSub.subscribe(context.header,context.args,callback)
+
 	},
-	addTrack: function(args){
+	publish:function(context){
+		var message = context.shift()
+		pubSub.publish(message,context)
+	},
+	addTrack: function(context){
 
 		var readID3 = function(){
-			id3({ file: "./tmp/"+args[0], type: id3.OPEN_LOCAL }, function(err, tags) {
+			id3({ file: "./tmp/"+context.args[0], type: id3.OPEN_LOCAL }, function(err, tags) {
 			    console.log("id3 tags: ",tags)
 			    var track = db.newTrack()
 			    track.save() // create unique ID associated with this record
@@ -85,11 +86,12 @@ _cmds = {
 
 			    		console.log('completing database fields from id3 tags', track)
 			    		track.save()
+					pubSub.publish(track.attributes,['sql','tracks'])
 			    	}
 
 			    	console.log("id: ",id)
 			    	console.log("track? ",track)
-			    	fs.rename("./tmp/"+args[0], serverFilename,completeDBRecord)
+			    	fs.rename("./tmp/"+context.args[0], serverFilename,completeDBRecord)
 			    })
 		// 				t.text('file')
 		// 				t.text('artist')
@@ -98,12 +100,13 @@ _cmds = {
 			})
 
 		}
-		console.log("args: ",args)
-		var file = fs.createWriteStream("./tmp/"+args[0])
+		console.log("args: ",context.args)
+		var file = fs.createWriteStream("./tmp/"+context.args[0])
 		file.on("error",function(err){console.log("error:",err)})
-		file.write(args[1])
+		file.write(context.args[1])
 		file.on("close",readID3)
 		file.end()
+
 		console.log("file closed")
 
 		console.log("done addTrack()")

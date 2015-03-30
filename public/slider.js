@@ -49,7 +49,7 @@ define(function(require){
 			if(message.command == "navigate"){
 				var request = {}
 				request.command = "toggleMenu"
-				request.header = {id:id,session:'local',widgetName:"main"}
+				request.header = {id:'local',widgetName:"main"}
 				request.args = []
 				socket.write(request)	
 				if(message.args[0]=="menu"){

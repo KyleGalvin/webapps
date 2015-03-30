@@ -1,14 +1,19 @@
 var subscriptions = {}
 var publishHelper = function(message,subTree,channel){
-	var channel = subTree.channels[channel[0]]
-	if(channel.subscribers){
-		for(var subscriber in channel.subscribers){
-			subscriber(message)
+	console.log("publishing to ",channel,message)
+	console.log("subtree ",subTree)
+	var subTree = subTree.channels[channel[0]]
+	if(subTree.subscribers){
+		for(var subscriberKey in subTree.subscribers){
+			var widgetID = subscriberKey.split(".")[1]
+			console.log("widgetID",widgetID)
+			subTree.subscribers[subscriberKey].send(JSON.stringify({message:message,header:{widgetID:widgetID}}))
 		}
 	}
 	if(channel.length > 1 ){
 		console.log('publishing message ',message)
-		publishHelper(message,channel,channel.shift())
+		channel.shift()
+		publishHelper(message,subTree,channel)
 	}
 }
 
@@ -18,6 +23,7 @@ module.exports = {
 	},
 	subscribe : function(agent,channel,callback){
 		console.log('subscribe called with args ',agent,"and",channel)
+		//console.log('callback>',callback)
 		//traverse to the bottom of our subscription tree
 		//if traversed node is not found, create it lazily along the way
 		var subTree = subscriptions
@@ -35,8 +41,8 @@ module.exports = {
 		if(!subTree.subscribers){
 			subTree.subscribers = {}
 		}
-		console.log("key:",agent.id +"_"+agent.widgetID)
-		subTree.subscribers[agent.id+"_"+agent.widgetID]=callback
+		console.log("key:",agent.id +"."+agent.widgetID)
+		subTree.subscribers[agent.id+"."+agent.widgetID]=callback
 		console.log("subscriptions:",subscriptions)
 	},
 	/*returns true on successful deletion of record, returns -1 if record not found */
