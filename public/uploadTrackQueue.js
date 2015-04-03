@@ -1,6 +1,6 @@
 define(function(require){
 	return function(){
-		var id = require("widgetRegistry").register(this)
+		var id = require("widgetRegistry").register(this,'uploadTrackQueue')
 		var socket = require("socket")
 		var mustache = require("mustache.min")
 
@@ -37,7 +37,7 @@ define(function(require){
 
 		var request = {}
 		request.command = "get"
-		request.header = {id:id}
+		request.header = {widgetID:id}
 		request.args = ["tracks"]
 		socket.write(request)
 	}

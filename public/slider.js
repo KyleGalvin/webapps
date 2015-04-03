@@ -2,7 +2,7 @@ define(function(require){
 	return function(){
 		var id = require("widgetRegistry").register(this,"slider")
 		var socket = require("socket")
-		this.view = $('<div class="slider">')
+		this.view = $('<div class="slider">').click(function(){console.log('slider click')})
 
 		var slideInPanel = $('<div class="mainPanelSlider">')
 		this.view.append(slideInPanel)
@@ -24,7 +24,7 @@ define(function(require){
 				right: "-=100%"
 			},500,function(){
 				main.view.empty()
-				main.view.append(newWidget.view)
+				newWidget.view.clone().appendTo(main.view)
 				main.view.css({"left":"0px"})
 				slideInPanel.empty()
 				slideInPanel.css({"right":"100%"})
@@ -39,7 +39,7 @@ define(function(require){
 					left:0
 				})
 				main.view.empty()
-				main.view.append(newWidget.view)
+				newWidget.view.clone().appendTo(main.view)
 				main.view.css({"left":"0px"})
 			})				
 		}

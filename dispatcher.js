@@ -44,8 +44,8 @@ _cmds = {
 	ping: function(args){
 		return {ping:args}
 	},
-	get: function(args){
-		console.log("get args:",args)
+	get: function(context){
+		console.log("get args:",context.args)
 		var allTracks = db.getTracks() //.then() for synching?
 		console.log("dbTracks:",allTracks)
 		return allTracks
