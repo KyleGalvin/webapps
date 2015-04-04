@@ -2,19 +2,22 @@ var subscriptions = {}
 var publishHelper = function(message,subTree,channel){
 	console.log("publishing to ",channel,message)
 	console.log("subtree ",subTree)
-	var subTree = subTree.channels[channel[0]]
-	if(subTree.subscribers){
-		for(var subscriberKey in subTree.subscribers){
-			var widgetID = subscriberKey.split(".")[1]
-			console.log("widgetID",widgetID)
-			subTree.subscribers[subscriberKey].send(JSON.stringify({message:message,header:{widgetID:widgetID}}))
+	if(subTree.channels){
+		var subTree = subTree.channels[channel[0]]
+		if(subTree.subscribers){
+			for(var subscriberKey in subTree.subscribers){
+				var widgetID = subscriberKey.split(".")[1]
+				console.log("widgetID",widgetID)
+				subTree.subscribers[subscriberKey].send(JSON.stringify({message:message,header:{widgetID:widgetID}}))
+			}
+		}
+		if(channel.length > 1 ){
+			console.log('publishing message ',message)
+			channel.shift()
+			publishHelper(message,subTree,channel)
 		}
 	}
-	if(channel.length > 1 ){
-		console.log('publishing message ',message)
-		channel.shift()
-		publishHelper(message,subTree,channel)
-	}
+
 }
 
 module.exports = {

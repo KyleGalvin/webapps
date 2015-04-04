@@ -3,7 +3,7 @@ define(function(require){
 		var id = require("widgetRegistry").register(this,'fileUploadQueue')
 		var socket = require("socket")
 		var dropzone = require('dropzone')
-		this.view = $("<div class='fileUploadQueue'>")
+		this.view = $("<div class='fileUploadQueue'>").click(function(){console.log('clicked foot left')})
 		this.handleMessage = function(message){
 			console.log("file handler message:",message)
 		}
@@ -29,9 +29,9 @@ define(function(require){
 		}
 
 		var dropzoneDOM = $('<input class="invisible" type="file" multiple>')//this allows the user to select a file
-		var uploadButton = $('<div class="fileUpload">')//.text("Click or Drag to Upload")//clicking this div triggers the file input click
+		var uploadButton = $('<div class="fileUpload">').text("Click or Drag to Upload")//clicking this div triggers the file input click
 
-		uploadButton[0].click(function(){
+		uploadButton.click(function(){
 			console.log('dropzone click')
 			dropzoneDOM.click()
 			return false

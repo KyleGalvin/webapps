@@ -1,29 +1,23 @@
-var model = {}
-var db= require("./dbConnector")
-var fs = require("fs")
-var pubSub = require("./publishSubscribe")
 var server
 //maybe we should start managing dispatcher modules and dependencies instead of having everything located in this one file?
+var db= require("./dbConnector")
+var pubSub = require("./publishSubscribe")
+var log = require('./log')
 var id3 = require('id3js')
-//var bookshelf = new db() //.getBookshelf()
-//var modelHandler = require('./modelHandler')
-//var path = require('path')
-//var git = require('../node_modules/nodegit/')
-//var fs = require('fs')
+var fs = require("fs")
 
 module.exports = {
 	init:function(srv){
-		//the publish widget is priveledged
-		//as it requires the ability to send data 
-		//to arbitrary clients
+		//the publish widget is priveledged as it requires
+		//the ability to send data to arbitrary clients
 		console.log('starting connections',srv)
 		server = srv
 		
 	},
 	call: function(args){
 		console.log("calling command:",args.command)
-		if(_cmds[args.command]){
-			var result = _cmds[args.command](args)
+		if(cmds[args.command]){
+			var result = cmds[args.command](args)
 			if(result){
 				console.log("returning result to sender",result)
 				return result
@@ -36,17 +30,14 @@ module.exports = {
 
 }
 
-function stringToModelID(string){
-	return string.replace(' ','_')
-}
-
-_cmds = {
+cmds = {
+	log: log,
 	ping: function(args){
 		return {ping:args}
 	},
 	get: function(context){
 		console.log("get args:",context.args)
-		var allTracks = db.getTracks() //.then() for synching?
+		var allTracks = db.getTracks() 
 		console.log("dbTracks:",allTracks)
 		return allTracks
 	},
@@ -93,10 +84,6 @@ _cmds = {
 			    	console.log("track? ",track)
 			    	fs.rename("./tmp/"+context.args[0], serverFilename,completeDBRecord)
 			    })
-		// 				t.text('file')
-		// 				t.text('artist')
-		// 				t.text('album')
-		// 				t.integer('track')
 			})
 
 		}
@@ -108,7 +95,6 @@ _cmds = {
 		file.end()
 
 		console.log("file closed")
-
 		console.log("done addTrack()")
 	}
 }
