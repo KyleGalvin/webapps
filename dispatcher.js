@@ -2,7 +2,7 @@ var server
 //maybe we should start managing dispatcher modules and dependencies instead of having everything located in this one file?
 var db= require("./dbConnector")
 var pubSub = require("./publishSubscribe")
-var log = require('./log')
+//var log = require('./log')
 var id3 = require('id3js')
 var fs = require("fs")
 
@@ -31,7 +31,7 @@ module.exports = {
 }
 
 cmds = {
-	log: log,
+	//log: log,
 	ping: function(args){
 		return {ping:args}
 	},
