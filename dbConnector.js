@@ -39,6 +39,22 @@ module.exports = {
 			})
 		})
 	},
+	clearDBTableImages:function(){
+		return bookshelf.knex.schema.hasTable('tracks').then(function(exists) {
+		  if (exists) {
+		    return knex.schema.dropTable('tracks')
+		  }
+		}).then(function(){
+			console.log('creating tracks')
+			return bookshelf.knex.schema.createTable('tracks', function(t){
+				t.increments('id').primary()
+				t.text('file')
+				t.text('name')
+				t.integer('type')
+			})
+		})
+
+	},
 	clearDBTableTracks:function(){
 		return bookshelf.knex.schema.hasTable('tracks').then(function(exists) {
 		  if (exists) {

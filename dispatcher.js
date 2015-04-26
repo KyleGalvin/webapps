@@ -41,6 +41,9 @@ cmds = {
 		console.log("dbTracks:",allTracks)
 		return allTracks
 	},
+	clearDBTableImages: function(args){
+		db.clearDBTableImages()
+	},
 	clearDBTableTracks: function(args){
 		db.clearDBTableTracks()
 	},
