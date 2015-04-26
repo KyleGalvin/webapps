@@ -10,7 +10,7 @@ Instructions:
 4) run:
 ```
 $ cd ./webapps
-$ npm install express bluebird socket.io body-parser knex mysql pg bookshelf id3js ejs websocket
+$ npm install express bluebird socket.io body-parser knex mysql pg bookshelf id3js ejs websocket easyimage
 $ node server.js
 ```
 5) connect via browser to assigned port 
