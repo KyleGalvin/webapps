@@ -11,7 +11,7 @@ define(function(require){
 		var uploadTrackQueue = new uploadTrackQueueWidget()
 
 		var fileUploadWidget = require("fileUpload")
-		var fileUpload = new fileUploadWidget("addTrack")
+		var fileUpload = new fileUploadWidget("addImage")
 		//var playlistQueueWidget = require("playlistQueue")
 
 		this.handleMessage = function(message){

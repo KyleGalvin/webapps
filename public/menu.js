@@ -18,6 +18,14 @@ define(function(require){
 			socket.write(request)			
 		}).text("Uploaded Track Queue")
 
+		var imageUpload = $('<div class="mainMenuButton">').click(function(){
+			var request = {}
+			request.command = "navigate"
+			request.header = {id:'local',widgetName:"slider"}
+			request.args = ["imageQueue"]
+			socket.write(request)			
+		}).text("Uploaded Image Queue")
+
 		var mapEdit = $('<div class="mainMenuButton">').click(function(){
 			var request = {}
 			request.command = "navigate"
@@ -46,6 +54,7 @@ define(function(require){
 		menuContainer.append(mapEdit)
 		menuContainer.append(playlistQueue)
 		menuContainer.append(dbAdmin)
+		menuContainer.append(imageUpload)
 
 	}
 })

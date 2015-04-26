@@ -51,6 +51,8 @@ module.exports = {
 				t.text('file')
 				t.text('name')
 				t.integer('type')
+				t.integer('width')
+				t.integer('height')
 			})
 		})
 

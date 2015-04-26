@@ -9,7 +9,6 @@ define(function(require){
 
 		var playlistWidget = require("playlist")
 		var playlistQueue = new playlistWidget()
-/*
 		var fileUploadWidget = require("fileUpload")
 		var fileUpload = new fileUploadWidget()
 		var playlistWidget = require("playlistQueue")
@@ -27,5 +26,5 @@ define(function(require){
 
 
 		this.view.append(footer)
-*/	}
+	}
 })

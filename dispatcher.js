@@ -59,6 +59,43 @@ cmds = {
 		var message = context.shift()
 		pubSub.publish(message,context)
 	},
+	addImage: function(context){
+		var addFileToDB = function(){
+			id3({ file: "./tmp/"+context.args[0], type: id3.OPEN_LOCAL }, function(err, tags) {
+			    console.log("id3 tags: ",tags)
+			    var track = db.newTrack()
+			    track.save() // create unique ID associated with this record
+			    .then(function(){
+			    	var id = track.attributes.id
+			    	//the client sees ./public/ as the root directory
+			    	var serverFilename = "./public/assets/"+id+".mp3"
+			    	var clientFilename = "./assets/"+id+".mp3"
+			    	var completeDBRecord = function(){
+
+			    		track.attributes.file= clientFilename
+			    		track.attributes.artist = tags.artist
+			    		track.attributes.album = tags.album
+			    		track.attributes.album.track = tags.v1.track
+
+			    		console.log('completing database fields from id3 tags', track)
+			    		track.save()
+					pubSub.publish(track.attributes,['sql','tracks'])
+			    	}
+
+			    	console.log("id: ",id)
+			    	console.log("track? ",track)
+			    	fs.rename("./tmp/"+context.args[0], serverFilename,completeDBRecord)
+			    })
+			})
+
+		}
+		console.log("args: ",context.args)
+		var file = fs.createWriteStream("./tmp/"+context.args[0])
+		file.on("error",function(err){console.log("error:",err)})
+		file.write(context.args[1])
+		file.on("close",readID3)
+		file.end()
+	},
 	addTrack: function(context){
 
 		var readID3 = function(){

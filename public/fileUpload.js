@@ -1,5 +1,5 @@
 define(function(require){
-	return function(){
+	return function(APICall){
 		var id = require("widgetRegistry").register(this,'fileUploadQueue')
 		var socket = require("socket")
 		var dropzone = require('dropzone')
@@ -17,7 +17,7 @@ define(function(require){
 				console.log("file reader loaded: ",evt)
 				console.log('data length:',evt.target.result.length)
 				var request = {}
-				request.command = "addTrack"
+				request.command = APICall //example values : "addTrack","addImage" api calls with differet asset locations/destinations/filetypes cause ambiguity
 				request.header = {id:id}
 				request.args = [files[0].name,evt.target.result]
 				socket.write(request)
