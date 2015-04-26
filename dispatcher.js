@@ -5,6 +5,7 @@ var pubSub = require("./publishSubscribe")
 //var log = require('./log')
 var id3 = require('id3js')
 var fs = require("fs")
+var easyimg = require('easyimage')
 
 module.exports = {
 	init:function(srv){
@@ -60,7 +61,21 @@ cmds = {
 		pubSub.publish(message,context)
 	},
 	addImage: function(context){
-		var addFileToDB = function(){
+		var gatherMetaData = function(){
+			easyimg.info(context.args[1]).then(function(file){
+				console.log("File: ",file)
+			})
+		}
+
+		console.log("args: ",context.args)
+		var file = fs.createWriteStream("./tmp/"+context.args[0])
+		file.on("error",function(err){console.log("error:",err)})
+		file.write(context.args[1])
+		file.on("close",gatherMetaData)
+		file.end()
+
+/*
+		var gatherMetaData = function(){
 			id3({ file: "./tmp/"+context.args[0], type: id3.OPEN_LOCAL }, function(err, tags) {
 			    console.log("id3 tags: ",tags)
 			    var track = db.newTrack()
@@ -89,12 +104,7 @@ cmds = {
 			})
 
 		}
-		console.log("args: ",context.args)
-		var file = fs.createWriteStream("./tmp/"+context.args[0])
-		file.on("error",function(err){console.log("error:",err)})
-		file.write(context.args[1])
-		file.on("close",readID3)
-		file.end()
+*/
 	},
 	addTrack: function(context){
 

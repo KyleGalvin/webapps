@@ -10,6 +10,14 @@ define(function(require){
 		var menuContainer = $('<div class="menuContainer">')
 		this.view.append(menuContainer)
 
+		var images = $('<div class="mainMenuButton">').click(function(){
+			var request = {}
+			request.command = "clearDBTableImages"
+			request.header = {id:id}
+			request.args = []
+			socket.write(request)			
+		}).text("Dump & Rebuild Images")
+
 		var tracks = $('<div class="mainMenuButton">').click(function(){
 			var request = {}
 			request.command = "clearDBTableTracks"
@@ -27,6 +35,7 @@ define(function(require){
 		}).text("Dump & Rebuild Playlists")
 
 		menuContainer.append(tracks)
+		menuContainer.append(images)
 		menuContainer.append(playlists)
 	}
 })

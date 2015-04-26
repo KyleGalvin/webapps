@@ -20,6 +20,9 @@ var bookshelf = require('bookshelf')(knex)
 var Track = bookshelf.Model.extend({
   tableName: 'tracks'
 })
+var Image = bookshelf.Model.extend({
+  tableName: 'images'
+})
 
 module.exports = {
 
@@ -40,13 +43,13 @@ module.exports = {
 		})
 	},
 	clearDBTableImages:function(){
-		return bookshelf.knex.schema.hasTable('tracks').then(function(exists) {
+		return bookshelf.knex.schema.hasTable('images').then(function(exists) {
 		  if (exists) {
-		    return knex.schema.dropTable('tracks')
+		    return knex.schema.dropTable('images')
 		  }
 		}).then(function(){
-			console.log('creating tracks')
-			return bookshelf.knex.schema.createTable('tracks', function(t){
+			console.log('creating images')
+			return bookshelf.knex.schema.createTable('images', function(t){
 				t.increments('id').primary()
 				t.text('file')
 				t.text('name')
@@ -82,6 +85,9 @@ module.exports = {
 			.then(function(Tracks){
 				return Tracks.toJSON()
 			})
+	},
+	newImage: function(){
+		return new Image()
 	},
 	newTrack: function(){
 		return new Track()
