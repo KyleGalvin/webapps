@@ -52,8 +52,9 @@ module.exports = {
 			return bookshelf.knex.schema.createTable('images', function(t){
 				t.increments('id').primary()
 				t.text('file')
+				t.integer('thumbnail')
 				t.text('name')
-				t.integer('type')
+				t.text('type')
 				t.integer('width')
 				t.integer('height')
 			})

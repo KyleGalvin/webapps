@@ -17,17 +17,13 @@ define(function(require){
 					<div class="trackScrollItem">\
 						<div class="twoColumnLeft">\
 							<div class="relative">\
-								<div class="trackDetailText">{{thumbnail}}</div>\
-								<div class="trackDetailText">{{album}}</div>\
-								<div class="trackDetailText">{{title}}</div>\
+								<div class="trackDetailText">{{name}}</div>\
 								<div class="trackDetailText">{{type}}</div>\
 								<div class="trackDetailText">{{width}}</div>\
+								<div class="trackDetailText">{{height}}</div>\
 							</div>\
 						</div><div class="twoColumnRight">\
-							<audio class="trackPlayer" controls>\
-								<source src="{{file}}" type="audio/mpeg">\
-								Your browser does not support the audio element.\
-							</audio>\
+							<img src="./assets/{{thumbnail}}.{{type}}"></div>\
 						</div>\
 					</div>\
 					{{/items}}\
@@ -38,9 +34,14 @@ define(function(require){
 		}
 
 		var request = {}
-		request.command = "get"
+		/*request.command = "get"
 		request.header = {widgetID:id}
 		request.args = ["tracks"]
+		socket.write(request)*/
+
+		request.command = "subscribe"
+		request.header = {widgetID:id}
+		request.args = ["sql","images"]
 		socket.write(request)
 	}
 })

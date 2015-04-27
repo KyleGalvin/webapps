@@ -62,14 +62,68 @@ cmds = {
 	},
 	addImage: function(context){
 		var gatherMetaData = function(){
-			easyimg.info(context.args[1]).then(function(file){
+			console.log("gathering meta data...")
+			easyimg.info("./tmp/"+context.args[0]).then(function(file){
 				console.log("File: ",file)
+				console.log("creating image database record")
+				var image = db.newImage()
+				image.save() // create unique ID associated with this record
+				.then(function(){
+					var id = image.attributes.id
+					var serverFilename = "./public/assets/"+id+"."+file.type
+					var clientFilename = "./assets/"+id+"."+file.type
+
+					console.log("creating thumbnail")
+					var thumbnail = db.newImage()
+					thumbnail.save()
+					.then(function(){
+						console.log("file metadata has no type:",file)
+						var thumbServerFilename="./public/assets/"+thumbnail.attributes.id+"."+file.type
+						var thumbClientFilename="./assets/"+thumbnail.attributes.id+"."+file.type
+						console.log("thumbnail destination filename>",thumbServerFilename)
+						console.log("thumbnail source filename>",serverFilename)
+						var completeDBRecord = function(){
+							console.log("thumbnail id:",thumbnail.attributes.id)
+							image.attributes.type= file.type
+							image.attributes.width = file.width
+							image.attributes.height = file.height
+							image.attributes.file = clientFilename
+							image.attributes.name = file.name
+							image.attributes.thumbnail = thumbnail.attributes.id
+
+							console.log('completing database fields from image metadata', image)
+							image.save().then(function(){
+								easyimg.rescrop({
+									src:serverFilename, dst:thumbServerFilename,
+									width:100, height:100,
+									//cropwidth:128, cropheight:128,
+									x:0, y:0
+								}).then(function(thumbImg){
+									console.log("thumbImg data:",thumbImg)
+									thumbnail.attributes.type= file.type
+									thumbnail.attributes.width = thumbImg.width
+									thumbnail.attributes.height = thumbImg.height
+									thumbnail.attributes.file = thumbClientFilename
+									thumbnail.attributes.name = file.name
+									thumbnail.save()
+									.then(function(){
+										pubSub.publish(image.attributes,['sql','images'])
+									})
+								})	
+							})
+						}
+						fs.rename("./tmp/"+context.args[0], serverFilename,completeDBRecord)
+					})
+
+				})
+				console.log("creating thumbnail database record")
 			})
 		}
 
 		console.log("args: ",context.args)
 		var file = fs.createWriteStream("./tmp/"+context.args[0])
 		file.on("error",function(err){console.log("error:",err)})
+		console.log("writing... ")
 		file.write(context.args[1])
 		file.on("close",gatherMetaData)
 		file.end()

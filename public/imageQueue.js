@@ -7,7 +7,7 @@ define(function(require){
 		var queueHeaderWidget = require("queueHeader")
 		var queueHeader = new queueHeaderWidget()
 
-		var uploadTrackQueueWidget = require("uploadTrackQueue")
+		var uploadTrackQueueWidget = require("uploadImageQueue")
 		var uploadTrackQueue = new uploadTrackQueueWidget()
 
 		var fileUploadWidget = require("fileUpload")
