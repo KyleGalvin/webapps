@@ -81,6 +81,12 @@ module.exports = {
 		})
 
 	},
+	getImages: function(){
+		return new Image().query('orderBy', 'id', 'desc').fetchAll()
+			.then(function(Tracks){
+				return Tracks.toJSON()
+			})
+	},
 	getTracks: function(){
 		return new Track().query('orderBy', 'id', 'desc').fetchAll()
 			.then(function(Tracks){

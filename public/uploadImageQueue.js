@@ -14,17 +14,14 @@ define(function(require){
 			var trackScrollTemplate = '\
 				<div class="trackScrollContainer">\
 					{{#items}}\
-					<div class="trackScrollItem">\
-						<div class="twoColumnLeft">\
-							<div class="relative">\
+					<div class="imageScrollItem">\
+							<img src="./assets/{{thumbnail}}.{{type}}"></img>\
+							<div class="relative" style="display:none;">\
 								<div class="trackDetailText">{{name}}</div>\
 								<div class="trackDetailText">{{type}}</div>\
 								<div class="trackDetailText">{{width}}</div>\
 								<div class="trackDetailText">{{height}}</div>\
 							</div>\
-						</div><div class="twoColumnRight">\
-							<img src="./assets/{{thumbnail}}.{{type}}"></div>\
-						</div>\
 					</div>\
 					{{/items}}\
 				</div>\
@@ -39,9 +36,15 @@ define(function(require){
 		request.args = ["tracks"]
 		socket.write(request)*/
 
+		//subscribe to recieve updates when images are changed
 		request.command = "subscribe"
 		request.header = {widgetID:id}
 		request.args = ["sql","images"]
+		socket.write(request)
+
+		//get all images and place them in template
+		request.command = "getImages"
+		request.header = {widgetID:id}
 		socket.write(request)
 	}
 })

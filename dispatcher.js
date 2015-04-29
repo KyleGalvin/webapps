@@ -36,7 +36,13 @@ cmds = {
 	ping: function(args){
 		return {ping:args}
 	},
-	get: function(context){
+	getImages: function(context){
+		console.log("get args:",context.args)
+		var allTracks = db.getImages() 
+		console.log("dbTracks:",allTracks)
+		return allTracks
+	},
+	getTracks: function(context){
 		console.log("get args:",context.args)
 		var allTracks = db.getTracks() 
 		console.log("dbTracks:",allTracks)
